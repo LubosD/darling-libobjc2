@@ -246,7 +246,7 @@ set(FORCE_LIBOBJCXX false CACHE BOOL
 
 # Darling: always use libcxxabi included in Darling
 set(libobjc_CXX_SRCS ${libobjcxx_CXX_SRCS})
-set(CXX_RUNTIME "c++abi")
+set(CXX_RUNTIME "cxxabi_shared")
 
 # Currently, we actually need pthreads, but we should use the platform's native
 # threading implementation (we do for everything except thread-local storage)
