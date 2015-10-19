@@ -11,6 +11,7 @@ set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
 # Darling: extras
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc")
 set(CMAKE_SHARED_LINKER_FLAGS "-nostdlib")
+set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/locale)
@@ -245,7 +246,7 @@ set(FORCE_LIBOBJCXX false CACHE BOOL
 #endif (ENABLE_OBJCXX)
 
 # Darling: always use libcxxabi included in Darling
-set(libobjc_CXX_SRCS ${libobjcxx_CXX_SRCS})
+# set(libobjc_CXX_SRCS ${libobjcxx_CXX_SRCS})
 set(CXX_RUNTIME "cxxabi_shared")
 
 # Currently, we actually need pthreads, but we should use the platform's native
@@ -302,43 +303,44 @@ endif ()
 #
 # Installation
 #
+# Darling: avoid GNUstep detection
 
-
-find_program(GNUSTEP_CONFIG gnustep-config)
-if (GNUSTEP_CONFIG)
-	EXEC_PROGRAM(gnustep-config
-		ARGS "--installation-domain-for=libobjc2"
-		OUTPUT_VARIABLE DEFAULT_INSTALL_TYPE)
-endif ()
+#find_program(GNUSTEP_CONFIG gnustep-config)
+#if (GNUSTEP_CONFIG)
+#	EXEC_PROGRAM(gnustep-config
+#		ARGS "--installation-domain-for=libobjc2"
+#		OUTPUT_VARIABLE DEFAULT_INSTALL_TYPE)
+#endif ()
 
 
 # If we have GNUstep environment variables, then default to installing in the
 # GNUstep local environment.
-if (DEFAULT_INSTALL_TYPE)
-else ()
-	set(DEFAULT_INSTALL_TYPE "NONE")
-endif ()
+#if (DEFAULT_INSTALL_TYPE)
+#else ()
+#	set(DEFAULT_INSTALL_TYPE "NONE")
+#endif ()
 
-if (NOT CMAKE_INSTALL_LIBDIR)
-	set(CMAKE_INSTALL_LIBDIR lib)
-endif ()
+#if (NOT CMAKE_INSTALL_LIBDIR)
+#	set(CMAKE_INSTALL_LIBDIR lib)
+#endif ()
 
 
-set(GNUSTEP_INSTALL_TYPE ${DEFAULT_INSTALL_TYPE} CACHE STRING
-	"GNUstep installation type.  Options are NONE, SYSTEM, NETWORK or LOCAL.")
-if (${GNUSTEP_INSTALL_TYPE} STREQUAL "NONE")
-	SET(LIB_INSTALL_PATH "${CMAKE_INSTALL_LIBDIR}" CACHE STRING
-		"Subdirectory of the root prefix where libraries are installed.")
-	SET(HEADER_INSTALL_PATH "include")
-else ()
-	EXEC_PROGRAM(gnustep-config
-		ARGS "--variable=GNUSTEP_${GNUSTEP_INSTALL_TYPE}_LIBRARIES"
-		OUTPUT_VARIABLE LIB_INSTALL_PATH)
-	EXEC_PROGRAM(gnustep-config
-		ARGS "--variable=GNUSTEP_${GNUSTEP_INSTALL_TYPE}_HEADERS"
-		OUTPUT_VARIABLE HEADER_INSTALL_PATH)
-endif ()
-message(STATUS "GNUstep install type set to ${GNUSTEP_INSTALL_TYPE}")
+#set(GNUSTEP_INSTALL_TYPE ${DEFAULT_INSTALL_TYPE} CACHE STRING
+#	"GNUstep installation type.  Options are NONE, SYSTEM, NETWORK or LOCAL.")
+#if (${GNUSTEP_INSTALL_TYPE} STREQUAL "NONE")
+#	SET(LIB_INSTALL_PATH "${CMAKE_INSTALL_LIBDIR}" CACHE STRING
+#		"Subdirectory of the root prefix where libraries are installed.")
+#	SET(HEADER_INSTALL_PATH "include")
+#else ()
+#	EXEC_PROGRAM(gnustep-config
+#		ARGS "--variable=GNUSTEP_${GNUSTEP_INSTALL_TYPE}_LIBRARIES"
+#		OUTPUT_VARIABLE LIB_INSTALL_PATH)
+#	EXEC_PROGRAM(gnustep-config
+#		ARGS "--variable=GNUSTEP_${GNUSTEP_INSTALL_TYPE}_HEADERS"
+#		OUTPUT_VARIABLE HEADER_INSTALL_PATH)
+#endif ()
+#message(STATUS "GNUstep install type set to ${GNUSTEP_INSTALL_TYPE}")
+set(GNUSTEP_INSTALL_TYPE "NONE")
 
 # Darling: avoid installing anything (for now!)
 #install(TARGETS ${INSTALL_TARGETS}
