@@ -255,7 +255,9 @@ set(CMAKE_THREAD_PREFER_PTHREAD)
 include(FindThreads)
 set(objc_LINK_FLAGS "${objc_LINK_FLAGS} ${CMAKE_THREAD_LIBS_INIT}")
 
-
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${SUFFIX}/darling")
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_library(objc SHARED ${libobjc_C_SRCS} ${libobjc_ASM_SRCS} ${libobjc_OBJC_SRCS} ${libobjc_CXX_SRCS})
 
@@ -342,14 +344,14 @@ endif ()
 #message(STATUS "GNUstep install type set to ${GNUSTEP_INSTALL_TYPE}")
 set(GNUSTEP_INSTALL_TYPE "NONE")
 
-# Darling: avoid installing anything (for now!)
+# Darling: different installation
 #install(TARGETS ${INSTALL_TARGETS}
 #	LIBRARY DESTINATION ${LIB_INSTALL_PATH}
 #	ARCHIVE DESTINATION ${LIB_INSTALL_PATH})
 #install(FILES ${libobjc_HDRS}
 #	DESTINATION "${HEADER_INSTALL_PATH}/${INCLUDE_DIRECTORY}")
 
-
+install(TARGETS objc DESTINATION lib${SUFFIX}/darling)
 
 set(CPACK_GENERATOR TGZ CACHE STRING
 	"Installer types to generate.  Sensible options include TGZ, RPM and DEB")
