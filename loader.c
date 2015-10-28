@@ -43,9 +43,68 @@ __attribute__((weak)) void (*dispatch_end_thread_4GC)(void);
 __attribute__((weak)) void *(*_dispatch_begin_NSAutoReleasePool)(void);
 __attribute__((weak)) void (*_dispatch_end_NSAutoReleasePool)(void *);
 
+static BOOL first_run = YES;
+
+// In Darling, libsystem must be initialized prior to any libobjc initialization.
+// This is a problem, because libsystem depends on libobjc and .objc_load_function()
+// invokes __objc_exec_class().
+#ifdef DARLING
+static struct objc_module_abi_8* pending[10];
+static int pending_count = 0;
+#endif
+
+void __objc_exec_class(struct objc_module_abi_8 *module);
+void __objc_initialize(void)
+{
+#if ENABLE_GC
+	init_gc();
+#endif
+	// Create the main runtime lock.  This is not safe in theory, but in
+	// practice the first time that this function is called will be in the
+	// loader, from the main thread.  Future loaders may run concurrently,
+	// but that is likely to break the semantics of a lot of languages, so
+	// we don't have to worry about it for a long time.
+	//
+	// The only case when this can potentially go badly wrong is when a
+	// pure-C main() function spawns two threads which then, concurrently,
+	// call dlopen() or equivalent, and the platform's implementation of
+	// this does not perform any synchronization.
+	INIT_LOCK(runtime_mutex);
+	// Create the various tables that the runtime needs.
+	init_selector_tables();
+	init_protocol_table();
+	init_class_tables();
+	init_dispatch_tables();
+	init_alias_table();
+	init_arc();
+	init_trampolines();
+	first_run = NO;
+	if (getenv("LIBOBJC_MEMORY_PROFILE"))
+	{
+		atexit(log_memory_stats);
+	}
+	if (dispatch_begin_thread_4GC != 0) {
+		dispatch_begin_thread_4GC = objc_registerThreadWithCollector;
+	}
+	if (dispatch_end_thread_4GC != 0) {
+		dispatch_end_thread_4GC = objc_unregisterThreadWithCollector;
+	}
+	if (_dispatch_begin_NSAutoReleasePool != 0) {
+		_dispatch_begin_NSAutoReleasePool = objc_autoreleasePoolPush;
+	}
+	if (_dispatch_end_NSAutoReleasePool != 0) {
+		_dispatch_end_NSAutoReleasePool = objc_autoreleasePoolPop;
+	}
+
+#ifdef DARLING
+	int i;
+	for (i = 0; i < pending_count; i++)
+		__objc_exec_class(pending[i]);
+#endif
+}
+
 void __objc_exec_class(struct objc_module_abi_8 *module)
 {
-	static BOOL first_run = YES;
 
 	// Check that this module uses an ABI version that we recognise.  
 	// In future, we should pass the ABI version to the class / category load
@@ -54,45 +113,12 @@ void __objc_exec_class(struct objc_module_abi_8 *module)
 
 	if (first_run)
 	{
-#if ENABLE_GC
-		init_gc();
+#ifndef DARLING
+		__objc_initialize();
+#else
+		pending[pending_count++] = module;
+		return;
 #endif
-		// Create the main runtime lock.  This is not safe in theory, but in
-		// practice the first time that this function is called will be in the
-		// loader, from the main thread.  Future loaders may run concurrently,
-		// but that is likely to break the semantics of a lot of languages, so
-		// we don't have to worry about it for a long time.
-		//
-		// The only case when this can potentially go badly wrong is when a
-		// pure-C main() function spawns two threads which then, concurrently,
-		// call dlopen() or equivalent, and the platform's implementation of
-		// this does not perform any synchronization.
-		INIT_LOCK(runtime_mutex);
-		// Create the various tables that the runtime needs.
-		init_selector_tables();
-		init_protocol_table();
-		init_class_tables();
-		init_dispatch_tables();
-		init_alias_table();
-		init_arc();
-		init_trampolines();
-		first_run = NO;
-		if (getenv("LIBOBJC_MEMORY_PROFILE"))
-		{
-			atexit(log_memory_stats);
-		}
-		if (dispatch_begin_thread_4GC != 0) {
-			dispatch_begin_thread_4GC = objc_registerThreadWithCollector;
-		}
-		if (dispatch_end_thread_4GC != 0) {
-			dispatch_end_thread_4GC = objc_unregisterThreadWithCollector;
-		}
-		if (_dispatch_begin_NSAutoReleasePool != 0) {
-			_dispatch_begin_NSAutoReleasePool = objc_autoreleasePoolPush;
-		}
-		if (_dispatch_end_NSAutoReleasePool != 0) {
-			_dispatch_end_NSAutoReleasePool = objc_autoreleasePoolPop;
-		}
 	}
 
 	// The runtime mutex is held for the entire duration of a load.  It does
