@@ -11,6 +11,7 @@ set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
 # Darling: extras
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -ggdb")
 set(CMAKE_SHARED_LINKER_FLAGS "-nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--defsym=__objc_personality_v0=__gnustep_objc_personality_v0")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
@@ -265,10 +266,13 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 set_source_files_properties(${libblocks_SRCS} PROPERTIES COMPILE_FLAGS "-DBUILDING_BLOCKS_RUNTIME_ONLY")
 
-add_library(objc SHARED ${libobjc_C_SRCS} ${libobjc_ASM_SRCS} ${libobjc_OBJC_SRCS} ${libobjc_CXX_SRCS})
+add_subdirectory(darling)
+
+add_library(objc SHARED ${libobjc_C_SRCS} ${libobjc_ASM_SRCS}
+	${libobjc_OBJC_SRCS} ${libobjc_CXX_SRCS} $<TARGET_OBJECTS:objc-apple>)
 # add_library(blocks SHARED ${libblocks_SRCS})
 
-#target_link_libraries(objc blocks)
+#target_link_libraries(objc darling-util-apple)
 #target_link_libraries(objc system)
 
 set_target_properties(objc PROPERTIES
