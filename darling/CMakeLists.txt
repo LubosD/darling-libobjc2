@@ -77,6 +77,11 @@ else(NOT OBJC_ABI_2)
 	)
 endif(NOT OBJC_ABI_2)
 
-add_library(objc-apple OBJECT ${objcdarwin_SRCS})
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${SUFFIX}/darling")
+SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+add_library(objc-apple SHARED ${objcdarwin_SRCS})
+target_link_libraries(objc-apple system objc cxx)
 
+install(TARGETS objc-apple DESTINATION lib${SUFFIX}/darling)
