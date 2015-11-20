@@ -46,6 +46,7 @@ set(objcdarwin_SRCS
 	common/selector.cpp
 	common/cfstring.cpp
 	dso_handle.c
+	dummy.c
 	../../../util/debug.cpp
 	
 	# These two should go into Foundation

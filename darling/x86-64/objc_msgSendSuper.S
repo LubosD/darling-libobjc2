@@ -31,12 +31,12 @@ objc_msgSendSuper2:
 	movq 8(%rax), %rax // load superclass
 	movq %rax, -8(%rsp)
 
-	subq %rsp, 16
+	subq $16, %rsp
 	movq %rsp, %rdi
 	
 	call objc_msg_lookup_super@PLT
 	
-	addq %rsp, 16
+	addq $16, %rsp
 	
 	RestoreRegisters
 	
@@ -63,13 +63,13 @@ objc_msgSendSuper2_stret:
 	movq 8(%rax), %rax // load superclass
 	movq %rax, -8(%rsp)
 
-	subq %rsp, 16
+	subq $16, %rsp
 	movq %rsp, %rdi
 	movq %rdx, %rsi
 	
 	call objc_msg_lookup_super@PLT
 	
-	addq %rsp, 16
+	addq $16, %rsp
 	
 	RestoreRegisters
 	
