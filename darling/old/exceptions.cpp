@@ -1,7 +1,7 @@
 #include "exceptions.h"
 #include <cstdlib>
 #include <iostream>
-#include "../util/trace.h"
+#include <util/trace.h>
 
 static __thread TryBlock* m_lastBlock = nullptr;
 

@@ -18,8 +18,9 @@ endif(BITS EQUAL 64)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_definitions(-D__STDC_LIMIT_MACROS)
+add_definitions(-DOBJC2RUNTIME=1)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -fvisibility=hidden -fconstant-string-class=NSConstantString -ggdb -nostdinc -nostdinc++")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -fvisibility=hidden -fconstant-string-class=NSConstantString -ggdb -nostdinc -nostdinc++ -fobjc-nonfragile-abi")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fPIC -fvisibility=hidden -ggdb")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fPIC")
 
@@ -29,6 +30,8 @@ include_directories(${DARLING_TOP_DIRECTORY}/src)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include)
 include_directories(${DARLING_TOP_DIRECTORY}/src/libc/include/FreeBSD)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/..)
+include_directories(${DARLING_TOP_DIRECTORY}/src/external/foundation/Headers)
+include_directories(${CMAKE_BINARY_DIR}/src/external/foundation/Headers)
 
 set(objcdarwin_SRCS
 	i386/objc_msgSend.S
