@@ -42,6 +42,7 @@ set(objcdarwin_SRCS
 	x86-64/objc_msgSendSuper.S
 
 	ClassRegister.cpp
+	ClassRegistry.cpp
 	#TrampolineHelper.mm
 	
 	common/attribute.cpp
