@@ -67,7 +67,7 @@ void ProcessImageLoad(const struct mach_header* mh, intptr_t slide)
 	ProcessProtocolsNew(mh, slide);
 
 	classes = reinterpret_cast<const class_t**>(
-		getsectdata(mh, SEG_OBJC_CLASSLIST_NEW, SECT_OBJC_CLASSLIST_NEW, &size)
+		getsectiondata(mh, SEG_OBJC_CLASSLIST_NEW, SECT_OBJC_CLASSLIST_NEW, &size)
 	);
 	if (classes)
 	{
@@ -81,7 +81,7 @@ void ProcessImageLoad(const struct mach_header* mh, intptr_t slide)
 	ProcessProtocolsOld(mh, slide);
 
 	modinfo = reinterpret_cast<module_info*>(
-		getsectdata(mh, SEG_OBJC_MODINFO_OLD, SECT_OBJC_MODINFO_OLD, &size)
+		getsectiondata(mh, SEG_OBJC_MODINFO_OLD, SECT_OBJC_MODINFO_OLD, &size)
 	);
 
 	if (modinfo && modinfo->symtab)

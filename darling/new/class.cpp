@@ -84,10 +84,10 @@ void UpdateClassRefs(const struct mach_header* mh)
 	class_t **class_refs, **class_refs_end, **super_refs, **super_refs_end;
 	
 	class_refs = reinterpret_cast<class_t**>(
-		getsectdata(mh, SEG_OBJC_CLASSREFS_NEW, SECT_OBJC_CLASSREFS_NEW, &refsize)
+		getsectiondata(mh, SEG_OBJC_CLASSREFS_NEW, SECT_OBJC_CLASSREFS_NEW, &refsize)
 	);
 	super_refs = reinterpret_cast<class_t**>(
-		getsectdata(mh, SEG_OBJC_SUPERREFS_NEW, SECT_OBJC_SUPERREFS_NEW, &refsize_s)
+		getsectiondata(mh, SEG_OBJC_SUPERREFS_NEW, SECT_OBJC_SUPERREFS_NEW, &refsize_s)
 	);
 	if (class_refs)
 		class_refs_end = class_refs + refsize / sizeof(class_t*);

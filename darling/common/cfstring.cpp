@@ -51,14 +51,14 @@ void UpdateCFStrings(const struct mach_header* mh)
 {
 	unsigned long size;
 	apple_cfstring* strings = reinterpret_cast<apple_cfstring*>(
-		getsectdata(mh, "__DATA", "__cfstring", &size)
+		getsectiondata(mh, "__DATA", "__cfstring", &size)
 	);
 
 	if (strings)
 		FixupCFStrings(strings, size / sizeof(apple_cfstring));
 
 	strings = reinterpret_cast<apple_cfstring*>(
-		getsectdata(mh, "__DATA", "__ustring", &size)
+		getsectiondata(mh, "__DATA", "__ustring", &size)
 	);
 
 	if (strings)

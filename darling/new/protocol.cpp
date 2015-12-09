@@ -74,7 +74,7 @@ void ProcessProtocolsNew(const struct mach_header* mh, intptr_t slide)
 	unsigned long protosize;
 
 	protocol_list = reinterpret_cast<const protocol_t**>(
-		getsectdata(mh, SEG_OBJC_PROTOLIST_NEW, SECT_OBJC_PROTOLIST_NEW, &protosize)
+		getsectiondata(mh, SEG_OBJC_PROTOLIST_NEW, SECT_OBJC_PROTOLIST_NEW, &protosize)
 	);
 
 	if (protocol_list)
@@ -86,7 +86,7 @@ void ProcessProtocolsNew(const struct mach_header* mh, intptr_t slide)
 		std::vector<const protocol_t*> vecProtocols;
 
 		protocol_refs = reinterpret_cast<protocol_t**>(
-			getsectdata(mh, SEG_OBJC_PROTOREFS_NEW, SECT_OBJC_PROTOREFS_NEW, &refsize)
+			getsectiondata(mh, SEG_OBJC_PROTOREFS_NEW, SECT_OBJC_PROTOREFS_NEW, &refsize)
 		);
 
 		if (protocol_refs)

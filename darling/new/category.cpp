@@ -13,7 +13,7 @@ void ProcessCategoriesNew(const struct mach_header* mh, intptr_t slide)
 	unsigned long size;
 
 	cats = reinterpret_cast<category_t**>(
-		getsectdata(mh, SEG_OBJC_CATLIST_NEW, SECT_OBJC_CATLIST_NEW, &size)
+		getsectiondata(mh, SEG_OBJC_CATLIST_NEW, SECT_OBJC_CATLIST_NEW, &size)
 	);
 	if (!cats)
 	{

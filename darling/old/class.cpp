@@ -84,7 +84,7 @@ std::vector<const char*> ProcessClassesOld(const struct mach_header* mh, intptr_
 	std::map<const char*,old_class*> mapClassNames;
 	std::vector<const char*> vecClassNames;
 
-	// ptr = getsectdata(mh, "__TEXT", "__cstring", &cstrLen);
+	// ptr = getsectiondata(mh, "__TEXT", "__cstring", &cstrLen);
 	// if (ptr)
 	// 	g_cstringSection = std::pair<uintptr_t,uintptr_t>(uintptr_t(ptr), cstrLen);
 	// else
@@ -137,7 +137,7 @@ void UpdateClassRefs(const struct mach_header* mh)
 	unsigned long refsize;
 
 	class_refs = reinterpret_cast<clsref*>(
-		getsectdata(mh, SEG_OBJC_CLASSREFS_OLD, SECT_OBJC_CLASSREFS_OLD, &refsize)
+		getsectiondata(mh, SEG_OBJC_CLASSREFS_OLD, SECT_OBJC_CLASSREFS_OLD, &refsize)
 	);
 
 	if (class_refs)

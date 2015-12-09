@@ -61,7 +61,7 @@ void ProcessProtocolsOld(const struct mach_header* mh, intptr_t slide)
 	unsigned long protosize;
 
 	protocols = reinterpret_cast<old_protocol*>(
-		getsectdata(mh, SEG_OBJC_PROTOCOLS_OLD, SECT_OBJC_PROTOCOLS_OLD, &protosize)
+		getsectiondata(mh, SEG_OBJC_PROTOCOLS_OLD, SECT_OBJC_PROTOCOLS_OLD, &protosize)
 	);
 
 	if (protocols)
@@ -98,7 +98,7 @@ void ProcessProtocolsOld(const struct mach_header* mh, intptr_t slide)
 		unsigned long extLen = 0;
 
 		extStart = reinterpret_cast<uintptr_t>(
-			getsectdata(mh, SEG_OBJC_PROTOEXT_OLD, SECT_OBJC_PROTOEXT_OLD, &extLen)
+			getsectiondata(mh, SEG_OBJC_PROTOEXT_OLD, SECT_OBJC_PROTOEXT_OLD, &extLen)
 		);
 
 		for (old_protocol* old : vecProtocols)

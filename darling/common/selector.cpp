@@ -14,17 +14,17 @@ void UpdateSelectors(const struct mach_header* mh, intptr_t slide)
 
 #ifdef OBJC_ABI_2
 	sel_refs = reinterpret_cast<selref*>(
-		getsectdata(mh, SEG_OBJC_SELREFS_NEW, SECT_OBJC_SELREFS_NEW, &selsize)
+		getsectiondata(mh, SEG_OBJC_SELREFS_NEW, SECT_OBJC_SELREFS_NEW, &selsize)
 	);
 	
 	msg_refs = reinterpret_cast<msgref*>(
-		getsectdata(mh, SEG_OBJC_MSGREFS_NEW, SECT_OBJC_MSGREFS_NEW, &msgsize)
+		getsectiondata(mh, SEG_OBJC_MSGREFS_NEW, SECT_OBJC_MSGREFS_NEW, &msgsize)
 	);
 	
 #else
 	
 	sel_refs = reinterpret_cast<selref*>(
-		getsectdata(mh, SEG_OBJC_SELREFS_OLD, SECT_OBJC_SELREFS_OLD, &selsize)
+		getsectiondata(mh, SEG_OBJC_SELREFS_OLD, SECT_OBJC_SELREFS_OLD, &selsize)
 	);
 #endif
 
