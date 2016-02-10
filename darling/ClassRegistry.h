@@ -5,10 +5,14 @@
 
 extern "C" {
 
+#pragma GCC visibility push (default)
+
 void __objc_register_class_with_image(void* mod, const char* name);
 const char *class_getImageName(Class cls);
 const char **objc_copyClassNamesForImage(const char *image, unsigned int *outCount);
 const char **objc_copyImageNames(unsigned int *outCount);
+
+#pragma GCC visibility pop
 
 }
 

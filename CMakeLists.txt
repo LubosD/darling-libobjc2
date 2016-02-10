@@ -257,10 +257,10 @@ set(CXX_RUNTIME "cxxabi_shared")
 # Currently, we actually need pthreads, but we should use the platform's native
 # threading implementation (we do for everything except thread-local storage)
 set(CMAKE_THREAD_PREFER_PTHREAD)
-include(FindThreads)
+# include(FindThreads)
 set(objc_LINK_FLAGS "${objc_LINK_FLAGS} ${CMAKE_THREAD_LIBS_INIT}")
 
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib${SUFFIX}/darling")
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/darling")
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
@@ -367,7 +367,7 @@ set(GNUSTEP_INSTALL_TYPE "NONE")
 
 set_target_properties(objc PROPERTIES LINK_FLAGS "-Wl,--defsym=__objc_personality_v0=__gnustep_objc_personality_v0")
 
-install(TARGETS objc DESTINATION lib${SUFFIX}/darling)
+install(TARGETS objc DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
 
 set(CPACK_GENERATOR TGZ CACHE STRING
 	"Installer types to generate.  Sensible options include TGZ, RPM and DEB")
