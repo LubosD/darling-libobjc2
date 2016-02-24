@@ -85,7 +85,7 @@ set(libobjc_HDRS
 	objc/slot.h
 )
 
-set(libobjcxx_CXX_SRCS objcxx_eh.cc)
+set(libobjcxx_CXX_SRCS objcxx_eh.cc darling/dso_handle.c)
 
 # For release builds, we disable spamming the terminal with warnings about
 # selector type mismatches
@@ -269,7 +269,7 @@ set_source_files_properties(${libblocks_SRCS} PROPERTIES COMPILE_FLAGS "-DBUILDI
 add_subdirectory(darling)
 
 add_library(objc SHARED ${libobjc_C_SRCS} ${libobjc_ASM_SRCS}
-	${libobjc_OBJC_SRCS} ${libobjc_CXX_SRCS})
+	${libobjc_OBJC_SRCS} ${libobjc_CXX_SRCS} ${libobjcxx_CXX_SRCS})
 # add_library(blocks SHARED ${libblocks_SRCS})
 
 #target_link_libraries(objc darling-util-apple)
