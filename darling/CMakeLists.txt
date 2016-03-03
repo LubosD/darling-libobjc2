@@ -52,10 +52,6 @@ set(objcdarwin_SRCS
 	dso_handle.c
 	dummy.c
 	../../../util/debug.cpp
-	
-	# These two should go into Foundation
-	#NSDarwinFramework.mm
-	#misc.mm
 )
 
 if(NOT OBJC_ABI_2)
@@ -87,6 +83,6 @@ SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_library(objc-apple SHARED ${objcdarwin_SRCS})
-target_link_libraries(objc-apple system objc cxx)
+target_link_libraries(objc-apple system objc cxx CFFExtra)
 
 install(TARGETS objc-apple DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
