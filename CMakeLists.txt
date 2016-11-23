@@ -28,6 +28,11 @@ add_definitions( -DGNUSTEP -D__OBJC_RUNTIME_INTERNAL__=1)
 # Probably not needed anymore?
 add_definitions( -D_XOPEN_SOURCE=700 -D__BSD_VISIBLE=1 -D_BSD_SOURCE=1)
 
+# Hide warnings
+add_definitions(
+	-Wno-incompatible-pointer-types-discards-qualifiers
+)
+
 set(libobjc_ASM_SRCS 
 	block_trampolines.S
 	objc_msgSend.S)
