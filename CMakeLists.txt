@@ -14,6 +14,7 @@ set(CMAKE_SHARED_LINKER_FLAGS "-nostdlib -Wl,--version-script=${DARLING_TOP_DIRE
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/locale)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/locale/FreeBSD)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/stdtime/FreeBSD)
