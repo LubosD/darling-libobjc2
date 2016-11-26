@@ -2,6 +2,9 @@
 #pragma clang system_header
 #endif
 
+#include <objc/objc.h>
+
+
 /**
  * objc-auto.h - This file provides the interface for Objective-C garbage
  * collection
@@ -257,3 +260,4 @@ void* objc_gc_collectable_address(void* ptr);
  * the function specified in the second argument.
  */
 BOOL objc_register_stack_class(Class cls, IMP copyFunction);
+inline static void* objc_collectableZone(void) { return 0; }
