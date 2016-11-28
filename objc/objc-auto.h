@@ -3,7 +3,7 @@
 #endif
 
 #include "objc.h"
-
+#include <auto_zone.h>
 
 /**
  * objc-auto.h - This file provides the interface for Objective-C garbage
@@ -260,4 +260,4 @@ void* objc_gc_collectable_address(void* ptr);
  * the function specified in the second argument.
  */
 BOOL objc_register_stack_class(Class cls, IMP copyFunction);
-inline static void* objc_collectableZone(void) { return 0; }
+inline static auto_zone_t* objc_collectableZone(void) { return 0; }

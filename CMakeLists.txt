@@ -9,7 +9,7 @@ set(CMAKE_C_FLAGS_RELEASE "-O3 ${CMAKE_C_FLAGS_RELEASE}")
 set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
 
 # Darling: extras
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -ggdb")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -ggdb -D__strong=")
 set(CMAKE_SHARED_LINKER_FLAGS "-nostdlib -Wl,--version-script=${DARLING_TOP_DIRECTORY}/darwin.map")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libcxxabi/include)
@@ -20,6 +20,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/locale/FreeBSD)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/stdtime/FreeBSD)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../libc/pthreads)
 include_directories(${DARLING_TOP_DIRECTORY}/platform-include)
+include_directories(${DARLING_TOP_DIRECTORY}/src/external/libauto)
 
 set(libobjc_VERSION 4.6)
 
