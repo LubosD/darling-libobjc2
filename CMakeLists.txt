@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
 
-
 project(libobjc)
 enable_language(ASM)
 
 set(CMAKE_C_FLAGS_DEBUG "-g -O0 -fno-inline ${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_C_FLAGS_RELEASE "-O3 ${CMAKE_C_FLAGS_RELEASE}")
 set(CMAKE_C_FLAGS "-std=gnu99 ${CMAKE_C_FLAGS}")
+
+add_definitions(
+	-Wno-objc-macro-redefinition
+	-Wno-deprecated-declarations
+)
 
 # Darling: extras
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -ggdb -D__strong=")
@@ -35,10 +39,10 @@ add_definitions(
 	-Wno-incompatible-pointer-types-discards-qualifiers
 )
 
-set(libobjc_ASM_SRCS 
+set(libobjc_ASM_SRCS
 	block_trampolines.S
 	objc_msgSend.S)
-set(libobjc_OBJC_SRCS 
+set(libobjc_OBJC_SRCS
 	NSBlocks.m
 	Protocol2.m
 	arc.m
@@ -49,7 +53,7 @@ set(libblocks_SRCS
 	#NSBlocks.m
 	gc_none.c
 	blocks_runtime.m)
-set(libobjc_C_SRCS 
+set(libobjc_C_SRCS
 	abi_version.c
 	alias_table.c
 	block_to_imp.c
