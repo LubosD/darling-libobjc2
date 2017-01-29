@@ -49,7 +49,7 @@ objc_msgSendSuper:
 	movl 8(%ebp), %eax
 	pushl %eax
 	call objc_msg_lookup_super@PLT
-	addl %esp, 8
+	addl $8, %esp
 
 	DereferenceArgument(0)
 
